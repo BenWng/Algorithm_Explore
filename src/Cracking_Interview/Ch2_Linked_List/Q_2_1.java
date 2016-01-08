@@ -12,8 +12,6 @@ import java.util.*;
  */
 
 
-//ToDo: Finish the remover without buffer
-//ToDo: the generic type
 
 public class Q_2_1 {
     public static void main(String[] args){
@@ -40,12 +38,24 @@ public class Q_2_1 {
            }
         return ll;
     }
+
+    /**
+     * removerNoBuffer does not work
+     * It is not possible to change a list with two iterators
+     * at the same time. The details see Evernote.
+     */
+
     public static LinkedList<String> removerNoBuffer(LinkedList<String> ll){
         ListIterator<String> itr=ll.listIterator();
         while(itr.hasNext()){
             String element=itr.next();
-
-
+            ListIterator<String> itr2=ll.listIterator(itr.nextIndex());
+            while(itr2.hasNext()){
+                if(itr2.next() == element){
+                    itr2.remove();
+                }
+            }
         }
+        return ll;
     }
 }
