@@ -1,26 +1,26 @@
 package sorting;
 import java.util.*;
+import java.lang.reflect.Array;
 
 /**
  * Created by ben on 1/8/16.
  */
 
-//ToDo: the generic and the conflict with ArrayList.
 
 public class MyLinkedList <T extends Object> {
-    class Node<T extends Object>{
+    class Node{
         T value;
-        Node<T> next;
+        Node next;
         public Node(T v){
             value=v;
             next=null;
         }
     }
 
-    public Node<T> head;
+    public Node head;
 
     public MyLinkedList(T h){
-        head=new Node<T>(h);
+        head=new Node(h);
     }
 
 
@@ -46,7 +46,7 @@ public class MyLinkedList <T extends Object> {
         }
         itr.next=new Node(x);
     }
-    /*
+
     public T[] show(){
         ArrayList<T> al=new ArrayList<T>();
         Node itr=head;
@@ -54,23 +54,22 @@ public class MyLinkedList <T extends Object> {
             al.add(itr.value);
             itr=itr.next;
         }
-        return al.toArray();
-    }*/
-    void show(){
-        Node itr=head;
-        while (itr!=null){
-            System.out.print(""+itr.value+ " ");
-            itr=itr.next;
+        T[] returnArray=(T[]) new Object[al.size()];
+        al.toArray(returnArray);
+        for(int i=0;i<returnArray.length;i++){
+            System.out.print(""+(T)returnArray[i]+" ");
         }
         System.out.println();
+        return returnArray;
     }
+
 
 
     public static void main(String args[]){
         MyLinkedList <String> mll=new MyLinkedList<String>("hello");
         mll.add("world");
         mll.add("byebye");
-        mll.show();
+        Object[] result=mll.show();
         mll.pop();
         mll.add("Nihao");
         mll.show();
