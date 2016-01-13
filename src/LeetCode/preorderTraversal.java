@@ -1,5 +1,8 @@
 package LeetCode;
+import LeetCode.DataStructures.TreeNode;
+
 import java.util.*;
+
 /**
  * Created by ben on 1/10/16.
  */
@@ -16,13 +19,6 @@ Given binary tree {1,#,2,3},
    3
 return [1,2,3].*/
 
-//  Definition for a binary tree node.
-  class TreeNode {
-      int val;
-      TreeNode left;
-      TreeNode right;
-      TreeNode(int x) { val = x; }
-  }
 
 
 
