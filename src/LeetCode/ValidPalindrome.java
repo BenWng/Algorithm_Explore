@@ -2,6 +2,7 @@ package LeetCode;
 
 import java.util.Arrays;
 import java.util.*;
+import java.util.concurrent.SynchronousQueue;
 
 /**
  * Created by ben on 1/14/16.
@@ -24,12 +25,23 @@ For the purpose of this problem, we define empty string as valid palindrome.
 public class ValidPalindrome {
     static boolean isPalindrome(String s) {
         String[] StringOnlyLetterNumber=s.replaceAll("[^a-zA-Z0-9]","").toLowerCase().split("");
-        LinkedList<String> list=new LinkedList<>(Arrays.asList(StringOnlyLetterNumber));
-        Iterator itrFoward=list.iterator();
-        Iterator itrBackward=list.descendingIterator();
+        int ascendIndex=0;
+        int descendIndex=StringOnlyLetterNumber.length-1;
+        if (descendIndex==0){
+            return true;
+        }
 
+        for(int i=0,j=ascendIndex,k=descendIndex;k>=j;i++,j=ascendIndex+i,k=descendIndex-i){
+            if(!StringOnlyLetterNumber[j].equals(StringOnlyLetterNumber[k])){
+                return false;
+            }
+        }
+
+        return true;
     }
     public static void main(String[] agrs){
-
+        String test="A man, a plan, a canal: Panama";
+        String test2="race a car";
+        System.out.print(isPalindrome(test2));
     }
 }
