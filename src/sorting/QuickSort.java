@@ -45,10 +45,10 @@ public class QuickSort <T extends Comparable<T>> {
             QuickSort <Double> qs=new QuickSort<>();
             qs.Ary=new Double[5];
             qs.Ary[0]=new Double(10);
-            qs.Ary[1]=new Double(3);
-            qs.Ary[2]=new Double(1);
-            qs.Ary[3]=new Double(8);
-            qs.Ary[4]=new Double(2);
+            qs.Ary[1]=new Double(10);
+            qs.Ary[2]=new Double(10);
+            qs.Ary[3]=new Double(10);
+            qs.Ary[4]=new Double(10);
             qs.sort(0,4);
             for(int i=0;i<qs.Ary.length;i++) {
                 System.out.print(""+qs.Ary[i]+" ");

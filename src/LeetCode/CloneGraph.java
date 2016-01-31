@@ -1,4 +1,6 @@
 package LeetCode;
+import LeetCode.DataStructures.*;
+import java.util.*;
 
 /**
  * Created by ben on 1/14/16.
@@ -29,8 +31,79 @@ Visually, the graph looks like the following:
          \_/
  */
 
+
+/** ToDo: I am not sure how to address the problem of visited.
+ *  The data structure does not contain that field.
+ */
+
+/** If this question were just about traversal, we could use a HashTable
+ * to deal with this.
+ *
+ * However, this one asks for clone. If B is already cloned, and B
+ * is a neighbor of A. After we clone A, we then clone every neighbor
+ * of A.
+ *
+ * Now the problem is there are two copies of B. If we put original one
+ * in the Hashtable, how can we add the copied one to A's neighbor list?
+ *
+ * If we put copied one in the Hashtable, how can we know that B has been
+ * cloned already?
+ *
+ * The solution is to use HashMap, the original copy is the key, the cloned
+ * copy is the value.
+ */
+
+
+
+
+
 public class CloneGraph {
+    public static UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
+        if (node==null){
+            return null;
+        }
 
 
+        LinkedList<UndirectedGraphNode> queue=new LinkedList<>();
+        HashMap<UndirectedGraphNode,UndirectedGraphNode> map=new HashMap<>();
 
+        UndirectedGraphNode head=new UndirectedGraphNode(node.label);
+        map.put(node,head);
+
+        queue.add(node);
+
+        while(!queue.isEmpty()){
+            UndirectedGraphNode current=queue.pop();
+            List<UndirectedGraphNode> neighbors=current.neighbors;
+            for (UndirectedGraphNode aNeighbor: neighbors){
+                if (!map.containsKey(aNeighbor)){
+                    UndirectedGraphNode newNeighbor=new UndirectedGraphNode(aNeighbor.label);
+                    queue.add(aNeighbor);
+                    map.get(current).neighbors.add(newNeighbor);
+                    map.put(aNeighbor,newNeighbor);
+                }
+                else{
+                    map.get(current).neighbors.add(map.get(aNeighbor));
+                }
+            }
+        }
+        return head;
+    }
+    public static void main(String[] args){
+        UndirectedGraphNode node0=new UndirectedGraphNode(0);
+
+        UndirectedGraphNode node1=new UndirectedGraphNode(1);
+        UndirectedGraphNode node2=new UndirectedGraphNode(2);
+
+        node0.neighbors.add(node1);
+        node0.neighbors.add(node2);
+
+        node1.neighbors.add(node2);
+
+        node2.neighbors.add(node2);
+
+        UndirectedGraphNode clonedNode=cloneGraph(node0);
+
+
+    }
 }
