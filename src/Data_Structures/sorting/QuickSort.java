@@ -1,6 +1,4 @@
-package sorting;
-
-import java.util.Comparator;
+package Data_Structures.sorting;
 
 /**
  * Created by Ben_Big on 1/29/16.
