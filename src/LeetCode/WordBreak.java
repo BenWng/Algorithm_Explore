@@ -19,6 +19,6 @@ import java.util.*;
 
 public class  WordBreak{
     public boolean wordBreak(String s, Set<String> wordDict) {
-
+        return false;
     }
 }
