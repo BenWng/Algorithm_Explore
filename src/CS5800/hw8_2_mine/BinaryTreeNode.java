@@ -1,18 +1,22 @@
 package CS5800.hw8_2_mine;
 
+import java.awt.Color;
+
 /**
  * Created by Ben_Big on 3/12/16.
  */
 
 
-public class BinaryTreeNode <E> implements Node<E>{
-    E value;
-    BinaryTreeNode<E> parent;
-    BinaryTreeNode<E> leftChild;
-    BinaryTreeNode<E> rightChild;
+public class BinaryTreeNode  implements Node{
+    int value;
+    BinaryTreeNode parent;
+    BinaryTreeNode leftChild;
+    BinaryTreeNode rightChild;
+    Color color;
 
-    BinaryTreeNode (E initialValue){
+    BinaryTreeNode (int initialValue){
         value=initialValue;
+        color=Color.black;
     }
 
     public void removeLeft(){
@@ -29,8 +33,8 @@ public class BinaryTreeNode <E> implements Node<E>{
         }
     }
 
-    boolean isParent(Node<E> btr){
-        BinaryTreeNode<E> temp=parent;
+    boolean isParent(Node btr){
+        BinaryTreeNode temp=parent;
         do{
            if (temp==btr){
                return true;
@@ -40,17 +44,17 @@ public class BinaryTreeNode <E> implements Node<E>{
         return false;
     }
 
-    public void addLeft(Node<E> newLeft){
+    public void addLeft(Node newLeft){
         if (!isParent(newLeft)) {
             this.removeLeft();
-            leftChild =(BinaryTreeNode<E>) newLeft;
+            leftChild =(BinaryTreeNode) newLeft;
         }
     }
 
-    public void addRight(Node<E> newRight){
+    public void addRight(Node newRight){
         if (!isParent(newRight)) {
             this.removeRight();
-            rightChild = (BinaryTreeNode<E>)newRight;
+            rightChild = (BinaryTreeNode)newRight;
         }
     }
 
