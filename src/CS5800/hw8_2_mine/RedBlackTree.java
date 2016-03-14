@@ -112,8 +112,8 @@ public class RedBlackTree {
                     rotateLeft(newNode);
                 }
             }
-            root.color=Color.black;
         }
+        root.color=Color.black;
     }
 
     private BinaryTreeNode successor_private(BinaryTreeNode x){
@@ -274,14 +274,34 @@ public class RedBlackTree {
         }
     }
 
-    int height(){
 
+    void height(){
+        heightOfTree(root,0);
+        System.out.println("height= "+height);
+    }
 
+    private void heightOfTree(BinaryTreeNode btr,int h){
+        if (btr==sentinel){
+            if (h>height){
+                height=h;
+            }
+        }
+        else{
+            heightOfTree(btr.leftChild,h+1);
+            heightOfTree(btr.rightChild,h+1);
+        }
 
     }
 
-    /*
-    void sort(){}*/
+
+    void sort(){
+        root.preOrderTraverse(new Node.Traverser(){
+            public void Traverse(Node n){
+                System.out.print(n.getValue()+" ");
+            }
+        },sentinel);
+        System.out.println();
+    }
 
     void printTree(){}
 
@@ -293,20 +313,22 @@ public class RedBlackTree {
 
         rbt.insert(26);
         rbt.insert(41);
+        rbt.height();
         rbt.insert(17);
+        rbt.height();
         rbt.insert(30);
+        rbt.height();
         rbt.insert(47);
 
-        rbt.search(30);
 
         rbt.insert(38);
         rbt.insert(50);
+        rbt.height();
+        rbt.sort();
+
         rbt.max();
         rbt.min();
 
-
-
-        System.out.println(rbt.root.rightChild.value);
 
 
     }

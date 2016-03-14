@@ -19,6 +19,26 @@ public class BinaryTreeNode  implements Node{
         color=Color.black;
     }
 
+    public int getValue(){
+        return value;
+    }
+
+    public void changeValue(int x){
+        value=x;
+    }
+
+    public Node getLeft(){
+        return leftChild;
+    }
+
+    public Node getRight(){
+        return rightChild;
+    }
+
+    public Node getParent(){
+        return parent;
+    }
+
     public void removeLeft(){
         if (leftChild!=null){
             leftChild.parent=null;
@@ -71,10 +91,16 @@ public class BinaryTreeNode  implements Node{
         }
     }
 
-    public void preOrderTraverse(){
-        leftChild.preOrderTraverse();
-
-
+    public void preOrderTraverse(Traverser tra, Node n){
+        if (leftChild!=n) {
+            leftChild.preOrderTraverse(tra,n);
+        }
+        if (this!=n) {
+            tra.Traverse(this);
+        }
+        if (rightChild!=n) {
+            rightChild.preOrderTraverse(tra,n);
+        }
     }
 
 }
