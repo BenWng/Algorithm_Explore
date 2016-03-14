@@ -70,11 +70,11 @@ public class BinaryTreeNode  implements Node{
             }
         }
     }
-    /*
+
     public void preOrderTraverse(){
         leftChild.preOrderTraverse();
 
 
-    }*/
+    }
 
 }

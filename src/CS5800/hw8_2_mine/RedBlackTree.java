@@ -12,6 +12,14 @@ public class RedBlackTree {
     BinaryTreeNode sentinel;
     int height;
 
+    RedBlackTree(){
+        sentinel=new BinaryTreeNode(0);
+        sentinel.parent=sentinel;
+        sentinel.rightChild=sentinel;
+        sentinel.leftChild=sentinel;
+        root=sentinel;
+    }
+
    void setRoot(int z){
        root=new BinaryTreeNode(z);
        sentinel=new BinaryTreeNode(0);
@@ -24,14 +32,16 @@ public class RedBlackTree {
        sentinel.rightChild=sentinel;
    }
 
-    //ToDo: insert needs to update height
+
+
     // I think initially root is also sentinel, so some part of setRoot is not necessary
 
     void insert(int z){
-            if(root==null){
+        /*
+           if(root==null){
                 setRoot(z);
                 return;
-            }
+            }*/
             BinaryTreeNode y=sentinel;
             BinaryTreeNode x=root;
             BinaryTreeNode newNode=new BinaryTreeNode(z);
@@ -106,7 +116,6 @@ public class RedBlackTree {
         }
     }
 
-
     private BinaryTreeNode successor_private(BinaryTreeNode x){
         if (x.rightChild!=sentinel)
             return min_private(x.rightChild);
@@ -159,33 +168,6 @@ public class RedBlackTree {
         return null;
     }
 
-
-    void successor(int x){
-        BinaryTreeNode y=search_private(x);
-        if (y==null){
-            System.out.println(""+x+" is not in the tree");
-        }
-        else{
-            BinaryTreeNode suc=successor_private(y);
-            if (suc==sentinel){
-                System.out.println(x+" is the largest element, no successor");
-            }
-            else {
-                System.out.println("" + x + "'s successor is " + suc.value);
-            }
-        }
-    }
-
-    int predecessor(int x){}
-
-    int min(){}
-
-    int max(){}
-
-    void search(int x){}
-
-    void sort(){}
-
     void rotateLeft(BinaryTreeNode x){
         BinaryTreeNode y=x.rightChild;
         x.rightChild=y.leftChild;
@@ -227,20 +209,102 @@ public class RedBlackTree {
 
     }
 
+
+    void successor(int x){
+        BinaryTreeNode y=search_private(x);
+        if (y==null){
+            System.out.println(""+x+" is not in the tree");
+        }
+        else{
+            BinaryTreeNode suc=successor_private(y);
+            if (suc==sentinel){
+                System.out.println(x+" is the largest element, no successor");
+            }
+            else {
+                System.out.println("" + x + "'s successor is " + suc.value);
+            }
+        }
+    }
+
+    void predecessor(int x){
+        BinaryTreeNode y=search_private(x);
+        if (y==null){
+            System.out.println(""+x+" is not in the tree");
+        }
+        else{
+            BinaryTreeNode pre=predecessor_private(y);
+            if (pre==sentinel){
+                System.out.println(x+" is the smallest element, no predecessor");
+            }
+            else {
+                System.out.println("" + x + "'s predecessor is " + pre.value);
+            }
+        }
+    }
+
+    void min(){
+        BinaryTreeNode y=min_private(root);
+        if (y==sentinel) {
+            System.out.println("The tree is empty");
+        }
+        else {
+            System.out.println("Minimum is "+y.value);
+        }
+    }
+
+    void max(){
+        BinaryTreeNode y=max_private(root);
+        if (y==sentinel) {
+            System.out.println("The tree is empty");
+        }
+        else {
+            System.out.println("Maximum is "+y.value);
+        }
+
+    }
+
+
+    void search(int x){
+        BinaryTreeNode y=search_private(x);
+        if (y==null){
+            System.out.println(""+x+" is not in the tree");
+        }
+        else{
+            System.out.println(""+x+" is in the tree");
+        }
+    }
+
+    int height(){
+
+
+
+    }
+
+    /*
+    void sort(){}*/
+
     void printTree(){}
 
 
 
     public static void main(String[] args){
         RedBlackTree rbt=new RedBlackTree();
+
+
         rbt.insert(26);
         rbt.insert(41);
         rbt.insert(17);
         rbt.insert(30);
-
         rbt.insert(47);
+
+        rbt.search(30);
+
         rbt.insert(38);
         rbt.insert(50);
+        rbt.max();
+        rbt.min();
+
+
 
         System.out.println(rbt.root.rightChild.value);
 
