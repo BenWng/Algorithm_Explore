@@ -5,6 +5,7 @@ package LeetCode;
  */
 
 /**
+ * 287.
  * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive),
  * prove that at least one duplicate number must exist.
  * Assume that there is only one duplicate number, find the duplicate one.
@@ -16,7 +17,7 @@ package LeetCode;
  There is only one duplicate number in the array, but it could be repeated more than once.
  */
 
-
+///ToDo: This problem needs to be repeated, looked at other's solution to solve this
 
 public class FindDuplicateNumber {
     public int findDuplicate(int[] nums) {
@@ -25,17 +26,17 @@ public class FindDuplicateNumber {
         int min=1;
         int half=(max+min)/2;
 
-        while (length>=2){
+        while (length>2){
             int lower_amount=half-min+1; // example max=15, min=3,half is 9
             int upper_amount=max-half;
             int lower_count=0;
             int upper_count=0;
             for (int  i : nums){
-                if (i>half){
-                    upper_amount++;
+                if (i>half && i<=max){
+                    upper_count++;
                 }
-                else { //i<=half
-                    lower_amount++;
+                else if(i>=min && i<=half){
+                    lower_count++;
                 }
             }
 
@@ -48,13 +49,37 @@ public class FindDuplicateNumber {
             half=(max+min)/2;
             length=max-min+1;
         }
-
-
-
+        if(length==2){
+            boolean upperFlag=false;
+            boolean lowerFlag=false;
+            for(int i: nums){
+                if(i==max){
+                    if (upperFlag==true){
+                        return max;
+                    }
+                    else{
+                        upperFlag=true;
+                    }
+                }
+                if(i==min){
+                    if (lowerFlag==true){
+                        return min;
+                    }
+                    else{
+                        lowerFlag=true;
+                    }
+                }
+            }
+        }
+        if(max==min){
+            return max;
+        }
         return 0;
     }
     public static void main(String[] args){
-
+        int [] test={1,3,4,2,2};
+        FindDuplicateNumber fdn=new FindDuplicateNumber();
+        System.out.println(fdn.findDuplicate(test));
 
 
     }
