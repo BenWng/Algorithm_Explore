@@ -11,6 +11,75 @@
  */
 
 
+// ToDo: the commented out code is what I thought out originally, the bucket sort idea is from leetcode, it therefore needs revisit
+
+
+var maximumGap=function(nums){
+    var n=nums.length;
+    if (n<=1){
+        return 0;
+    }
+    var MaxMin=findMaxMin(nums);
+    var Max=MaxMin[0];
+    var Min=MaxMin[1];
+    var gap=Math.ceil((Max-Min)/(n-1));
+    //bucket sort
+    var bucketArray=new Array(n);
+    for (var i=0;i<n;i++){
+        var k=Math.floor((nums[i]-Min)/gap);
+        if (bucketArray[k]===undefined){
+            bucketArray[k]=new Array(2);
+            bucketArray[k][0]=nums[i];
+            bucketArray[k][1]=nums[i];
+        }
+        else if(nums[i]<bucketArray[k][0]){
+            bucketArray[k][0]=nums[i];
+        }
+        else if(nums[i]>bucketArray[k][1]){
+            bucketArray[k][1]=nums[i];
+        }
+    }
+    var sortedArray=new Array;
+    for (var i=0;i<n;i++){
+        if (bucketArray[i]!==undefined){
+            sortedArray.push(bucketArray[i][0]);
+            sortedArray.push(bucketArray[i][1]);
+        }
+    }
+    return findGap(sortedArray);
+}
+
+
+var findMaxMin=function(nums){
+    var Max=-Infinity;
+    var Min=Infinity;
+    for (var i=0;i<nums.length;i++){
+        if (nums[i]>Max){
+            Max=nums[i];
+        }
+        if (nums[i]<Min){
+            Min=nums[i];
+        }
+    }
+    return [Max,Min]
+}
+
+
+var findGap=function(sortedArray){
+    var maxGap=0;
+    for (var i=0;i<sortedArray.length-1;i++){
+        var temp=sortedArray[i+1]-sortedArray[i];
+        maxGap=temp>maxGap?temp:maxGap;
+    }
+    return maxGap;
+}
+
+console.log(maximumGap([3,8,0,19]));
+console.log(maximumGap([2,9999999]));
+console.log(maximumGap([3,1,8888]));
+console.log(maximumGap([1,1,1,1,1,5,5,5,5,5]));
+
+/*
 var maximumGap = function(nums) {
     if (nums.length<=1){
         return 0;
@@ -65,26 +134,6 @@ var findGap=function(sortedArray){
 }
 
 
-function bsort(a, key) {
-    key = key || function(x) { return x };
-    var len = a.length,
-        buckets = [],
-        i, j, b, d = 0;
-    for (; d < 32; d += 4) {
-        for (i = 16; i--;)
-            buckets[i] = [];
-        for (i = len; i--;)
-            buckets[(key(a[i]) >> d) & 15].push(a[i]);
-        for (b = 0; b < 16; b++)
-            for (j = buckets[b].length; j--;)
-                a[++i] = buckets[b][j];
-    }
-    return a;
-}
-
-function msbits(x,k){
-    return x>>(32-k);
-}
 
 
 
@@ -103,3 +152,6 @@ console.log(maximumGap([3,8,0,19]));//expecting 11
 
 //Test maximumGap
 console.log(maximumGap([2,9999999]));
+*/
+
+
