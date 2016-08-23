@@ -5,6 +5,9 @@ package LeetCode;
  */
 
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 /**
  * 274. Given an array of citations (each citation is a non-negative integer) of a researcher,
  * write a function to compute the researcher's h-index.
@@ -18,4 +21,48 @@ package LeetCode;
 
 
 public class HIndex {
+    public int hIndex(int[] citations) {
+        LinkedList<Integer> sortedCitations=countSort(citations);
+        Iterator<Integer> itr=sortedCitations.iterator();
+        int index=0;
+        int hIndex=0;
+        while(itr.hasNext()){
+            int currentValue=itr.next();
+            if(currentValue>sortedCitations.size()-index){
+                return hIndex>sortedCitations.size()-index?hIndex:sortedCitations.size()-index;
+            }
+            else{
+                hIndex=currentValue;
+                index++;
+            }
+
+        }
+        return hIndex;
+    }
+    public LinkedList<Integer> countSort(int[] citations){
+        int max=0;
+        for (int i=0;i<citations.length;i++){
+            if(citations[i]>max){
+                max=citations[i];
+            }
+        }
+        int[] countResult=new int[max+1];
+        for (int i=0;i<citations.length;i++){
+            countResult[citations[i]]++;
+        }
+        LinkedList<Integer> result=new LinkedList<>();
+        for (int i=0;i<countResult.length;i++){
+            if(countResult[i]!=0){
+                for (int j=0;j<countResult[i];j++){
+                    result.add(i);
+                }
+            }
+        }
+        return result;
+    }
+    public static void main(String[] args){
+        int[] testCase1={3,5,8};
+        HIndex hi=new HIndex();
+        System.out.println(hi.hIndex(testCase1));
+    }
 }
