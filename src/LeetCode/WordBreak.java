@@ -19,6 +19,8 @@ import java.util.function.BooleanSupplier;
  Return true because "leetcode" can be segmented as "leet code".
  */
 
+/*
+//Recursive Solution:
 
 public class  WordBreak{
     HashMap<Integer,LinkedList<String>> firstLetterTable =new HashMap<>();
@@ -86,4 +88,32 @@ public class  WordBreak{
     }
 
 
+}*/
+
+//Iterative solution
+public class WordBreak{
+    public boolean wordBreak(String s, Set<String> wordDict) {
+        // The array to store the result for dynamic programming
+        boolean[] c=new boolean[s.length()+1];
+        c[0]=true;
+        for (int i=1;i<c.length;i++){
+               for (int j=i-1;j>=0;j--){
+                   String subString=s.substring(j,i);
+                   if (c[j]==true && wordDict.contains(subString)){
+                       c[i]=true;
+                       break;
+                   }
+               }
+        }
+        return c[c.length-1];
+    }
+
+    public static void main(String[] args){
+        WordBreak wb=new WordBreak();
+        String test1="LeetCode";
+        HashSet test1Set=new HashSet();
+       // test1Set.add("LO");test1Set.add("L");
+        test1Set.add("Leetode");test1Set.add("Code");test1Set.add("Leet");
+        System.out.println(wb.wordBreak(test1,test1Set));
+    }
 }
