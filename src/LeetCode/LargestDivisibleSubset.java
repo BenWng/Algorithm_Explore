@@ -5,7 +5,9 @@ package LeetCode;
  */
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,7 +38,12 @@ import java.util.List;
 
  */
 
+/** The idea of the following implementation is right, but the implementation itself
+ * makes it very slow, although it is still good enough to pass leetcode
+ */
 
+//ToDo: The problem therefore needs to be revisited
+/*
 public class LargestDivisibleSubset {
 
     public List<Integer> largestDivisibleSubset(int[] nums) {
@@ -139,6 +146,75 @@ public class LargestDivisibleSubset {
         System.out.println(lds.largestDivisibleSubset(testSubset3));
         int [] testSubset4={546,669};
         System.out.println(lds.largestDivisibleSubset(testSubset4));
+
+
+    }
+}
+*/
+
+public class LargestDivisibleSubset {
+    public List<Integer> largestDivisibleSubset(int[] nums){
+        if (nums.length==0){
+            ArrayList<Integer>result =new ArrayList<>(0);
+            return result;
+        }
+        Arrays.sort(nums);
+        //The array for recursive relationship
+        int []S=new int[nums.length];
+
+        //The array to track the result
+        int []C=new int[nums.length];
+
+        S[0]=1;
+        C[0]=0;
+
+
+        int maximumSubsetSize=1;
+        int maximumSubsetIndex=0;
+        for (int i=1;i<nums.length;i++){
+            int maxSForI=-1;
+            int bestMatchingJ=-1;
+            for (int j=i-1;j>=0;j--){
+                if (nums[i]%nums[j]==0 && 1+S[j]>maxSForI){
+                    bestMatchingJ=j;
+                    maxSForI=1+S[j];
+                }
+            }
+            if (bestMatchingJ==-1){
+                S[i]=1;
+                C[i]=i;
+            }
+            else{
+                S[i]=maxSForI;
+                C[i]=bestMatchingJ;
+            }
+            if(S[i]>maximumSubsetSize){
+                maximumSubsetSize=S[i];
+                maximumSubsetIndex=i;
+            }
+        }
+        LinkedList<Integer> result=new LinkedList<>();
+        int temp=maximumSubsetIndex;
+        while (C[temp]!=temp){
+            result.addFirst(nums[temp]);
+            temp=C[temp];
+        }
+        result.addFirst(nums[temp]);
+        return result;
+    }
+    public static void main(String[] args){
+        LargestDivisibleSubset lds=new LargestDivisibleSubset();
+          //Test largestDivisibleSubset
+        int [] testSubset1={1,2,3};
+        System.out.println(lds.largestDivisibleSubset(testSubset1));
+        int [] testSubset2={1,2,3,8,9,27,81};
+        System.out.println(lds.largestDivisibleSubset(testSubset2));
+        int [] testSubset3=new int[0];
+        System.out.println(lds.largestDivisibleSubset(testSubset3));
+        int [] testSubset4={546,669};
+        System.out.println(lds.largestDivisibleSubset(testSubset4));
+        int [] testSubset5={3,4,16,8};
+        System.out.println(lds.largestDivisibleSubset(testSubset5));
 
 
     }
