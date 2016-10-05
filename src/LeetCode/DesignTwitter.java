@@ -54,19 +54,22 @@ import java.util.*;
 
 
 class post{
+    private static int time=0;
+
     int id;
     int creatorId;
-    Timestamp timeCreated;
+    int timeCreated;
     post(int id,int creatorId){
         this.id=id;
         this.creatorId=creatorId;
-        timeCreated=new Timestamp(Calendar.getInstance().getTime().getTime());
+        time++;
+        timeCreated=time;
     }
 }
 
 class MyComp implements Comparator<post>{
     public int compare(post postA,post postB){
-        if(postA.timeCreated.before(postB.timeCreated)){
+        if(postA.timeCreated<postB.timeCreated){
             return 1;
         }
         else{
@@ -79,7 +82,7 @@ class MyComp implements Comparator<post>{
 
 
 public class DesignTwitter {
-    HashMap<Integer,PriorityQueue<post>> allPosts;//the integer key corresponds to the user ID;
+    HashMap<Integer,TreeSet<post>> allPosts;//the integer key corresponds to the user ID;
     HashMap<Integer,HashSet<Integer>> allFollowingList;//the integer key corresponds to the user ID;
 
     public DesignTwitter(){
@@ -90,25 +93,26 @@ public class DesignTwitter {
 
     public void postTweet(int userId, int postId){
         if (allPosts.containsKey(userId)){
-            PriorityQueue<post> thisUsersPosts=allPosts.get(userId);
+            TreeSet<post> thisUsersPosts=allPosts.get(userId);
             thisUsersPosts.add(new post(postId,userId));
         }
         else{
-            PriorityQueue<post> newUsersPosts=new PriorityQueue<>(new MyComp());
+            TreeSet<post> newUsersPosts=new TreeSet<>(new MyComp());
             newUsersPosts.add(new post(postId,userId));
             allPosts.put(userId,newUsersPosts);
         }
     }
 
     public void follow(int followerId, int followingId){
-        if (allFollowingList.containsKey(followerId)){
-            HashSet<Integer> peopleFollowing=allFollowingList.get(followerId);
-            peopleFollowing.add(followingId);
-        }
-        else{
-            HashSet<Integer> newUsersFollowingList=new HashSet<>();
-            newUsersFollowingList.add(followingId);
-            allFollowingList.put(followerId,newUsersFollowingList);
+        if (followerId!=followingId) {
+            if (allFollowingList.containsKey(followerId)) {
+                HashSet<Integer> peopleFollowing = allFollowingList.get(followerId);
+                peopleFollowing.add(followingId);
+            } else {
+                HashSet<Integer> newUsersFollowingList = new HashSet<>();
+                newUsersFollowingList.add(followingId);
+                allFollowingList.put(followerId, newUsersFollowingList);
+            }
         }
 
     }
@@ -122,14 +126,14 @@ public class DesignTwitter {
     }
 
     public List<Integer> getNewsFeed(int userId){
-        PriorityQueue<post> postsCache=new PriorityQueue<>(new MyComp());
+        TreeSet<post> postsCache=new TreeSet<>(new MyComp());
         HashSet<Integer> followingList=allFollowingList.get(userId);
         if(followingList!=null) {
             Iterator<Integer> itr = followingList.iterator();
             //Add the posts of those this person is following into postsCache
             while (itr.hasNext()) {
                 Integer followingId = itr.next();
-                PriorityQueue<post> followingsPosts = allPosts.get(followingId);
+                TreeSet<post> followingsPosts = allPosts.get(followingId);
                 if (followingsPosts!=null) {
                     Iterator<post> innerItr = followingsPosts.iterator();
                     for (int i = 0; i < 10 && innerItr.hasNext(); i++) {
@@ -139,7 +143,7 @@ public class DesignTwitter {
             }
         }
         //Add the person's own posts
-        PriorityQueue<post> ownPosts=allPosts.get(userId);
+        TreeSet<post> ownPosts=allPosts.get(userId);
         if (ownPosts!=null) {
             Iterator<post> itr2 = ownPosts.iterator();
             for (int i = 0; i < 10 && itr2.hasNext(); i++) {
@@ -160,17 +164,17 @@ public class DesignTwitter {
 
 
     public static void main(String[] args){
-        /*
+
         DesignTwitter dt=new DesignTwitter();
         //Tests for postTweet
         dt.postTweet(1,3);
         dt.postTweet(1,1);
         dt.postTweet(1,0);
         dt.postTweet(2,3);
-        System.out.println(dt.allPosts.get(1).poll().id);
+        System.out.println(dt.allPosts.get(1).pollFirst().id);
         dt.postTweet(1,234);
-        System.out.println(dt.allPosts.get(1).poll().id);
-        System.out.println(dt.allPosts.get(1).poll().id);
+        System.out.println(dt.allPosts.get(1).pollFirst().id);
+        System.out.println(dt.allPosts.get(1).pollFirst().id);
         //Tests for follow and unfollow
         dt.follow(1,3);
         dt.follow(1,5);
@@ -189,7 +193,7 @@ public class DesignTwitter {
         dt2.postTweet(1,18);
         dt2.follow(2,1);
         System.out.println(dt2.getNewsFeed(2));
-        */
+
 
         DesignTwitter dt3=new DesignTwitter();
         dt3.postTweet(1,5);
