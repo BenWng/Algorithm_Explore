@@ -53,6 +53,8 @@ import java.util.*;
  */
 
 
+//ToDo: There is a better approach, see Notability
+
 class post{
     private static int time=0;
 
