@@ -43,7 +43,7 @@ import java.util.*;
 
         Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another path aaaaaaaaaaaaaaaaaaaaa/sth.png.*/
 
-//ToDo: This question's instruction does not quite meet the test code in leetcode
+//ToDo: needs revisit. This question's instruction does not quite meet the test code in leetcode
 //  cases like dir/n    file.txt is interpreted as two files dir/ and "    file.txt"
 // The code lengthLongestPath2 is from leetcode, mine initial idea is basically the same as this one, but my
 // implementation is too complicated.
