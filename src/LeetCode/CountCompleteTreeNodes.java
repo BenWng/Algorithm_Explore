@@ -23,13 +23,13 @@ package LeetCode;
 
 //ToDo: this problem needs revisit, I initially thought traversal the whole tree should be good enough, but it is too slow
 
-
+/*
 class TreeNode {
     int val;
     TreeNode left;
     TreeNode right;
     TreeNode(int x) { val = x; }
-}
+}*/
 
 // The following code would still exceed time limit, the culprit is Math.pow
 /*
