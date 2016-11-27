@@ -34,71 +34,40 @@ import java.util.*;
  * Created by Ben_Big on 11/28/16.
  */
 public class NumberOfIslands {
-    HashSet<Map.Entry<Integer,Integer>> onePositions=new HashSet<>();
+    private int[][] vistedPoints;
     public int numIslands(char[][] grid) {
-
+        vistedPoints=new int [grid.length][];
+        for (int i=0;i<grid.length;i++){
+            vistedPoints[i]=new int[grid[0].length];
+        }
+        int result=0;
         for (int i=0;i<grid.length;i++){
             for (int j=0;j<grid[0].length;j++){
-                if (grid[i][j]=='1'){
-                    Map.Entry<Integer,Integer> position=new AbstractMap.SimpleEntry(i,j);
-                    onePositions.add(position);
+                if (grid[i][j]=='1' && vistedPoints[i][j]==0){
+                    result++;
+                    dfs(i,j,grid);
                 }
             }
-        }
-
-        int result=0;
-        while(!onePositions.isEmpty()){
-            Map.Entry<Integer,Integer> currentPos=new AbstractMap.SimpleEntry(-1,-1);
-            for (Map.Entry<Integer,Integer>pos : onePositions){
-                currentPos=pos;
-                break;
-            }
-            onePositions.remove(currentPos);
-            doBFS(currentPos,grid);
-            result++;
         }
         return result;
     }
-
-    private void doBFS(Map.Entry<Integer,Integer> currentPos, char[][] grid){
-        Queue<Map.Entry<Integer,Integer>> queue=new LinkedList<>();
-        queue.add(currentPos);
-        while(!queue.isEmpty()){
-            Map.Entry<Integer,Integer> pos=queue.poll();
-            int x=pos.getKey();
-            int y=pos.getValue();
-
-            if(x+1<grid.length && grid[x+1][y]=='1'){
-                Map.Entry<Integer,Integer>neighbor=new AbstractMap.SimpleEntry(x+1,y);
-                if (onePositions.contains(neighbor)){
-                    onePositions.remove(neighbor);
-                    queue.add(neighbor);
-                }
-            }
-            if(x-1>=0 && grid[x-1][y]=='1'){
-                Map.Entry<Integer,Integer>neighbor=new AbstractMap.SimpleEntry(x-1,y);
-                if (onePositions.contains(neighbor)){
-                    onePositions.remove(neighbor);
-                    queue.add(neighbor);
-                }
-            }
-            if(y+1<grid[0].length && grid[x][y+1]=='1'){
-                Map.Entry<Integer,Integer>neighbor=new AbstractMap.SimpleEntry(x,y+1);
-                if (onePositions.contains(neighbor)){
-                    onePositions.remove(neighbor);
-                    queue.add(neighbor);
-                }
-
-            }
-            if(y-1>=0 && grid[x][y-1]=='1'){
-                Map.Entry<Integer,Integer>neighbor=new AbstractMap.SimpleEntry(x,y-1);
-                if (onePositions.contains(neighbor)){
-                    onePositions.remove(neighbor);
-                    queue.add(neighbor);
-                }
-            }
+    void dfs(int x,int y,char[][] grid){
+        vistedPoints[x][y]=1;
+        if (x+1<vistedPoints.length && vistedPoints[x+1][y]==0 && grid[x+1][y]=='1'){
+            dfs(x+1,y,grid);
         }
+        if (x-1>=0 && vistedPoints[x-1][y]==0 && grid[x-1][y]=='1'){
+            dfs(x-1,y,grid);
+        }
+        if (y+1<vistedPoints[0].length && vistedPoints[x][y+1]==0 && grid[x][y+1]=='1'){
+            dfs(x,y+1,grid);
+        }
+        if (y-1>=0 && vistedPoints[x][y-1]==0 && grid[x][y-1]=='1'){
+            dfs(x,y-1,grid);
+        }
+
     }
+
 
 
     public static void main(String[] args){
