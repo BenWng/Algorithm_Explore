@@ -1,8 +1,11 @@
 package LeetCode;
 
-/**
- * Created by Ben_Big on 2/9/17.
- */
+
+/*
+29. Divide two integers without using multiplication, division and mod operator.
+
+        If it is overflow, return MAX_INT.*/
+
 public class DivideTwoIntegers {
     public int divide(int dividend, int divisor) {
         if (divisor==0) return Integer.MAX_VALUE;
